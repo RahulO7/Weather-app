@@ -13,13 +13,18 @@ export default function Weather() {
     const [location,setlocation] = useState([])
     const [input,setInput] = useState("")
     const [loading,setLoading] = useState(true)
+    const [loadinge,setLoadinge] = useState("Enter A Vaild City")
     // const [city,setCity] = useState(false)
 
 
     
 
     const WeatherData = async()=>{
-        setLoading(true)
+     if(input !== " "){
+      setLoadinge("Loading...")
+      setLoading(true)
+
+     }
 
 
         await axios({
@@ -43,13 +48,18 @@ export default function Weather() {
     
     }
 
-    const getweather =()=>{
-        setWdata([])
+    const getweather =(e)=>{
+
+      if (e.keyCode === 13) {
+      setWdata([])
         setCondition([])
         setlocation([])
         setLoading(true)
         WeatherData()
         // setInput("")
+    }
+
+       
        
 
 
@@ -68,10 +78,13 @@ export default function Weather() {
     <Style>
         <div className='Nav'>
 
-    <input type="text" value={input} onChange ={(e)=>setInput(e.target.value)} />
-    <input type="submit" onClick={getweather} />
+    <input type="text" value={input} onChange ={(e)=>setInput(e.target.value)} placeholder="Enter Your City" onKeyDown={getweather}/>
+    {/* <input type="submit" onClick={getweather} /> */}
         </div>
-{loading?<p>Loading...</p>:<Card {...props}/>}
+
+        {}
+
+{loading?<p>{loadinge}</p>:<Card {...props}/>}
         
 </Style>
   )
@@ -84,9 +97,19 @@ align-items: center;
 justify-content: center;
 gap: 40px;
 .Nav{
+  padding: 20px;
     width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    input{
+      padding: 10px;
+      outline: none;
+      border: 1px solid black;
+      border-radius: 10px;
+    }
     
 
    
